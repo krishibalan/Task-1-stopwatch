@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <style>
+    body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #fff;
+  }
+  
+  .stopwatch {
+    text-align: center;
+  }
+  
+  .display {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    font-size: 1em;
+    padding: 5px 10px;
+    margin: 5px;
+  }
+  
+  </style>
+</head>
+
+
+<body>
+  <div class="stopwatch">
+    <div class="display">00:00:00</div>
+    <button id="startButton">Start</button>
+    <button id="stopButton">Stop</button>
+    <button id="resetButton">Reset</button>
+  </div>
+
+
+
+ 
+
+  <script>
+    const display = document.querySelector('.display');
+    const startButton = document.getElementById('startButton');
+    const stopButton = document.getElementById('stopButton');
+    const resetButton = document.getElementById('resetButton');
+
+    let startTime;
+    let intervalId;
+
+    function updateDisplay(ms) {
+    const date = new Date(ms);
+    const hours = date.getUTCHours().toString().padStart(2, '0');
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+    display.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    startButton.addEventListener('click', () => {
+    if (!startTime) {
+        startTime = new Date().getTime();
+        intervalId = setInterval(() => {
+        const currentTime = new Date().getTime();
+        updateDisplay(currentTime - startTime);
+        }, 1000);
+    }
+    });
+
+    stopButton.addEventListener('click', () => {
+    clearInterval(intervalId);
+    startTime = null;
+    });
+
+    resetButton.addEventListener('click', () => {
+    clearInterval(intervalId);
+    startTime = null;
+    updateDisplay(0);
+    });
+  </script>
+</body>
+</html>
